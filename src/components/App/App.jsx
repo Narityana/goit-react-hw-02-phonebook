@@ -44,6 +44,12 @@ export class App extends Component {
     this.setState({ filter });
   };
 
+  //додано при останньому коміті для очищення інпуту
+  handlerFilterBlur = () => {
+    console.log('куди ти тицяєш');
+    this.setState({ filter: '' });
+  };
+
   deleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
@@ -57,7 +63,12 @@ export class App extends Component {
         <ContactForm onSubmit={this.formSubmitHandler} />
 
         <h2 className={css.app__subTitle}>Contacts</h2>
-        <Filter onChangeInputFilter={this.filterChangeHandler} />
+        <Filter
+          onChangeInputFilter={this.filterChangeHandler}
+          //додано при останньому коміті для очищення інпуту
+          value={this.state.filter}
+          onBlur={this.handlerFilterBlur}
+        />
         <ContactList
           contacts={this.state.contacts}
           filter={this.state.filter}

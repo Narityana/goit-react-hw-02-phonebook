@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import css from './Filter.module.css';
-const Filter = ({ onChangeInputFilter }) => {
+const Filter = ({ value, onChangeInputFilter, onBlur }) => {
   return (
     <>
       <label className={css.filter__label}>
@@ -8,7 +8,9 @@ const Filter = ({ onChangeInputFilter }) => {
         <input
           className={css.filter__input}
           type="text"
+          value={value}
           onChange={onChangeInputFilter}
+          onBlur={onBlur}
         ></input>
       </label>
     </>
