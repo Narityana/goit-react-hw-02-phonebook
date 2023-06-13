@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
+
 import css from './ContactForm.module.css';
 
 class ContactForm extends Component {
@@ -8,6 +8,7 @@ class ContactForm extends Component {
     name: '',
     number: '',
   };
+
   handleInputChange = event => {
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value });
@@ -15,13 +16,8 @@ class ContactForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { name, number } = event.currentTarget.elements;
-    const contactItem = {
-      id: nanoid(),
-      name: name.value,
-      number: number.value,
-    };
-    this.props.onSubmit(contactItem);
+
+    this.props.onSubmit(this.state);
     this.setState({ name: '', number: '' });
   };
 
@@ -48,7 +44,7 @@ class ContactForm extends Component {
               className={css.form__input}
               type="tel"
               name="number"
-              pattern="(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
               onChange={this.handleInputChange}

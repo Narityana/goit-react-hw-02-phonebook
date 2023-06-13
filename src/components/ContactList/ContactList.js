@@ -1,22 +1,21 @@
 import PropTypes from 'prop-types';
 import ContactListItem from 'components/ContactListItem/ContactListItem';
+
 import css from './ComtactList.module.css';
 
-const ContactList = ({ contacts, filter, onDeleteContact }) => {
+const ContactList = ({ contacts, onDeleteContact }) => {
   return (
     <div className={css.contact__container}>
       <ul className={css.contact__list}>
-        {contacts
-          .filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
-          .map(contact => (
-            <ContactListItem
-              key={contact.id}
-              id={contact.id}
-              name={contact.name}
-              number={contact.number}
-              onDeleteContact={onDeleteContact}
-            />
-          ))}
+        {contacts.map(contact => (
+          <ContactListItem
+            key={contact.id}
+            id={contact.id}
+            name={contact.name}
+            number={contact.number}
+            onDeleteContact={onDeleteContact}
+          />
+        ))}
       </ul>
     </div>
   );
@@ -30,7 +29,6 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ).isRequired,
-  filter: PropTypes.string.isRequired,
   onDeleteContact: PropTypes.func.isRequired,
 };
 

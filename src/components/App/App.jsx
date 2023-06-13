@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
+
 import ContactForm from 'components/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
 
 import css from './App.module.css';
-
 export class App extends Component {
   state = {
     contacts: [
@@ -19,7 +19,7 @@ export class App extends Component {
   };
 
   formSubmitHandler = data => {
-    const { id, name, number } = data;
+    const { name, number } = data;
     const { contacts } = this.state;
     const sameContact = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -30,7 +30,7 @@ export class App extends Component {
     }
 
     const newContact = {
-      id: id,
+      id: nanoid(),
       name: name,
       number: number,
     };
@@ -51,32 +51,28 @@ export class App extends Component {
     }));
   };
 
+  filtredContactsHandler = () => {
+    const contacts = this.state.contacts;
+    const filter = this.state.filter;
+    const filtredContacts = contacts.filter(el =>
+      el.name.toLowerCase().includes(filter.toLowerCase())
+    );
+    return filtredContacts;
+  };
+
   render() {
+    const filtredContacts = this.filtredContactsHandler();
     return (
       <div className={css.app__container}>
         <h1 className={css.app__title}>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
-
         <h2 className={css.app__subTitle}>Contacts</h2>
         <Filter onChangeInputFilter={this.filterChangeHandler} />
         <ContactList
-          contacts={this.state.contacts}
-          filter={this.state.filter}
+          contacts={filtredContacts}
           onDeleteContact={this.deleteContact}
         />
       </div>
     );
   }
 }
-
-App.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  filter: PropTypes.string,
-  onSubmit: PropTypes.func,
-};
