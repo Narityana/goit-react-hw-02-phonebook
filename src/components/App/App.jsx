@@ -19,7 +19,7 @@ export class App extends Component {
   };
 
   formSubmitHandler = data => {
-    const { name } = data;
+    const { id, name, number } = data;
     const { contacts } = this.state;
     const sameContact = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -30,10 +30,11 @@ export class App extends Component {
     }
 
     const newContact = {
-      id: data.id,
-      name: data.name,
-      number: data.number,
+      id: id,
+      name: name,
+      number: number,
     };
+
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
@@ -42,12 +43,6 @@ export class App extends Component {
   filterChangeHandler = event => {
     const filter = event.currentTarget.value;
     this.setState({ filter });
-  };
-
-  //додано при останньому коміті для очищення інпуту
-  handlerFilterBlur = () => {
-    console.log('куди ти тицяєш');
-    this.setState({ filter: '' });
   };
 
   deleteContact = contactId => {
@@ -63,12 +58,7 @@ export class App extends Component {
         <ContactForm onSubmit={this.formSubmitHandler} />
 
         <h2 className={css.app__subTitle}>Contacts</h2>
-        <Filter
-          onChangeInputFilter={this.filterChangeHandler}
-          //додано при останньому коміті для очищення інпуту
-          value={this.state.filter}
-          onBlur={this.handlerFilterBlur}
-        />
+        <Filter onChangeInputFilter={this.filterChangeHandler} />
         <ContactList
           contacts={this.state.contacts}
           filter={this.state.filter}
